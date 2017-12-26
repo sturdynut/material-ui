@@ -11,12 +11,17 @@ class Page extends React.Component {
 
     const markdowns = pages
       .find(page => page.pathname === '/api')
-      .children.filter(child => child.pathname !== '/api/all')
-      .map((child) => child.markdown);
+      .children.filter(child => child.pathname !== '/api/all');
 
     console.log('markdowns', markdowns);
 
     return markdowns;
+  }
+  _getLink(path) {
+    return path.replace(/(\/api\/)|(-)/ig, '');
+  }
+  _getName(path) {
+    return path.replace(/\/api\//, '');
   }
   constructor() {
     super();
@@ -36,11 +41,40 @@ class Page extends React.Component {
     return (
       <div>
         {markdowns &&
-          markdowns.map((markdown, index) => (
-            <div key={index} style={{ margin: '10px auto', backgroundColor: '#fff', width: '90%', padding: '2em' }}>
-              <MarkdownDocs markdown={markdown} />
-            </div>
-          ))}
+          <div>
+            <ul style={{
+              position: 'fixed',
+              right: '0',
+              top: '64px',
+              backgroundColor: '#333',
+              margin: '0',
+              listStyle: 'none',
+              padding: '2em 1em 6em',
+              overflow: 'auto',
+              height: '100%'
+            }}>
+              {
+                markdowns.map((markdown, index) => (
+                  <li key={`toc-${index}`} style={{ marginBottom: '4px' }}>
+                    <a style={{
+                      color: '#fff',
+                      textDecoration: 'none',
+                      textTransform: 'uppercase',
+                      fontFamily: 'sans-serif'
+                    }} href={`#${this._getLink(markdown.pathname)}`}>{this._getName(markdown.pathname)}</a>
+                  </li>
+                ))
+              }
+            </ul>
+            {
+              markdowns.map((markdown, index) => (
+                <div key={`section-${index}`} style={{ margin: '10px auto', backgroundColor: '#fff', width: '90%', padding: '2em' }}>
+                  <MarkdownDocs markdown={markdown.markdown} />
+                </div>
+              ))
+            }
+          </div>
+        }
       </div>
     );
   }

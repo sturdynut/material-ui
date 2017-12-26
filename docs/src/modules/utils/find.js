@@ -117,8 +117,19 @@ function findPages(
       return;
     }
 
+    let markdown = '';
+    if (pathname.indexOf('/api') !== -1) {
+      try {
+        markdown = fs.readFileSync(itemPath.replace('.js', '.md'), 'utf8');
+      } catch(e) {
+        markdown = '';
+      }
+    }
+
     pages.push({
+      itemPath,
       pathname,
+      markdown,
     });
   });
 

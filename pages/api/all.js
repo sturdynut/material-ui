@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withRoot from 'docs/src/modules/components/withRoot';
 import MarkdownDocs from 'docs/src/modules/components/MarkdownDocs';
+import Typography from 'material-ui/Typography';
 
 // const docs = [import('./app-bar.md'), import('./avatar.md')];
 
@@ -46,22 +47,28 @@ class Page extends React.Component {
               position: 'fixed',
               right: '0',
               top: '64px',
-              backgroundColor: '#333',
+              backgroundColor: 'rgba(0,0,0,0.6)',
               margin: '0',
               listStyle: 'none',
               padding: '2em 1em 6em',
               overflow: 'auto',
               height: '100%'
             }}>
+              <Typography type='title' style={{
+                color: '#fff',
+                textTransform: 'uppercase',
+                marginBottom: '20px'
+              }}>Quick Links</Typography>
               {
                 markdowns.map((markdown, index) => (
                   <li key={`toc-${index}`} style={{ marginBottom: '4px' }}>
-                    <a style={{
-                      color: '#fff',
-                      textDecoration: 'none',
-                      textTransform: 'uppercase',
-                      fontFamily: 'sans-serif'
-                    }} href={`#${this._getLink(markdown.pathname)}`}>{this._getName(markdown.pathname)}</a>
+                    <Typography type='body1'>
+                      <a style={{
+                        color: '#fff',
+                        textDecoration: 'none',
+                        textTransform: 'uppercase',
+                      }} href={`#${this._getLink(markdown.pathname)}`}>{this._getName(markdown.pathname)}</a>
+                    </Typography>
                   </li>
                 ))
               }
@@ -69,10 +76,13 @@ class Page extends React.Component {
             {
               markdowns.map((markdown, index) => (
                 <div key={`section-${index}`} style={{ margin: '10px auto', backgroundColor: '#fff', width: '90%', padding: '2em' }}>
-                  <MarkdownDocs markdown={markdown.markdown} />
+                  <MarkdownDocs markdown={markdown.markdown} style={{
+                    paddingTop: '20px'
+                  }} />
                 </div>
               ))
             }
+            <script>window.onload = function() { window.setTimeout(function() { document.getElementById('ad').remove() }, 500) }</script>
           </div>
         }
       </div>
